@@ -13,7 +13,7 @@ export function FounderSection() {
           {/* Portrait - 3:4 aspect ratio on left */}
           <div className="relative w-full max-w-[280px] md:max-w-[320px] aspect-[3/4] rounded-lg overflow-hidden ring-1 ring-border/30 shrink-0">
             <Image
-              src=""
+              src="/images/founder.jpg"
               alt="Fondatrice de La Ruche Studio"
               fill
               className="object-cover"

@@ -10,6 +10,8 @@ import { CorporateSection } from "@/components/corporate-section"
 import { BlogSection } from "@/components/blog-section"
 import { Footer } from "@/components/footer"
 import { StickyCta } from "@/components/sticky-cta"
+import { GallerySection } from "@/components/gallery"
+ 
 
 export default function Home() {
   return (
@@ -21,6 +23,7 @@ export default function Home() {
         <WorkshopsSection />
         <PauseArtSection />
         <KhaliaSection />
+        <GallerySection />
         <FounderSection />
         <TestimonialsSection />
         <CorporateSection />
