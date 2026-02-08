@@ -1,64 +1,86 @@
-import { WorkshopCard } from "@/components/workshop-card"
+'use client'
 
-const workshops = [
-  {
-    image: "/images/workshop-poetry.jpg",
-    title: "Atelier Poésie & Écriture",
-    description:
-      "Laissez libre cours à votre plume dans une ambiance intimiste. Repartez avec vos créations écrites et un carnet personnalisé.",
-    category: "Écriture",
-    date: "Samedi 15 Mars",
-    time: "14h00",
-    duration: "3 heures",
-    totalPlaces: 12,
-    remainingPlaces: 4,
-    price: 65,
-  },
-  {
-    image: "/images/workshop-fabric.jpg",
-    title: "Peinture sur Tissu",
-    description:
-      "Créez votre propre pièce textile unique avec des motifs botaniques. Techniques de peinture sur coton et lin.",
-    category: "Peinture",
-    date: "Dimanche 16 Mars",
-    time: "10h00",
-    duration: "4 heures",
-    totalPlaces: 10,
-    remainingPlaces: 2,
-    price: 85,
-  },
-  {
-    image: "/images/workshop-glass.jpg",
-    title: "Peinture sur Verre",
-    description:
-      "Transformez un vase ou un photophore en œuvre d'art. Apprenez les techniques de peinture vitrail moderne.",
-    category: "Peinture",
-    date: "Samedi 22 Mars",
-    time: "15h00",
-    duration: "3 heures",
-    totalPlaces: 8,
-    remainingPlaces: 8,
-    price: 75,
-  },
-  {
-    image: "/images/workshop-candle.jpg",
-    title: "Création de Bougies",
-    description:
-      "Fabriquez vos propres bougies parfumées avec des cires naturelles et des huiles essentielles de qualité.",
-    category: "Artisanat",
-    date: "Dimanche 23 Mars",
-    time: "14h00",
-    duration: "2h30",
-    totalPlaces: 10,
-    remainingPlaces: 6,
-    price: 70,
-  },
-]
+import { useEffect, useState } from "react"
+import { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription, 
+  CardContent, 
+  CardFooter 
+} from "@/components/ui/card" // Adjust this path to where your card components are
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Clock, Users, Loader2 } from "lucide-react"
+import { getWorkshops } from "@/lib/service/workshopService"
+import { BookingModal } from "@/components/workShop/BookingModal"
+import { format } from "date-fns"
+
+interface Workshop {
+  id: string
+  title: string
+  description: string
+  date: string
+  startTime: string
+  endTime?: string
+  category: string
+  capacity: number
+  bookedSeats: number
+  price: number
+  status: string
+  image?: string | null
+}
 
 export function WorkshopsSection() {
+  const [workshops, setWorkshops] = useState<Workshop[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  
+  // Modal State
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false)
+  const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null)
+
+  const fetchWorkshops = async () => {
+    try {
+      setLoading(true)
+      const data = await getWorkshops()
+      const publishedWorkshops = (data as Workshop[]).filter(
+        (w) => w.status === 'PUBLISHED'
+      )
+      setWorkshops(publishedWorkshops)
+      setError(null)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to load workshops')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => { fetchWorkshops() }, [])
+
+  const handleBookNow = (workshop: Workshop) => {
+    setSelectedWorkshop(workshop)
+    setIsBookingModalOpen(true)
+  }
+
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), 'EEEE d MMMM')
+    } catch { return dateString }
+  }
+
+  if (loading) {
+    return (
+      <div className="py-32 flex justify-center bg-secondary">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    )
+  }
+
   return (
     <section id="ateliers" className="py-24 lg:py-32 bg-secondary">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
+        {/* Header Section */}
         <div className="text-center mb-16">
           <p className="text-sm tracking-[0.2em] uppercase text-muted-foreground mb-4">
             Nos Ateliers
@@ -74,12 +96,92 @@ export function WorkshopsSection() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {workshops.map((workshop) => (
-            <WorkshopCard key={workshop.title} {...workshop} />
-          ))}
+        {/* Dynamic Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {workshops.map((workshop) => {
+            const seatsLeft = workshop.capacity - (workshop.bookedSeats || 0)
+            const isSoldOut = seatsLeft <= 0
+
+            return (
+              <Card key={workshop.id} className="overflow-hidden border-none shadow-md hover:shadow-lg transition-all group">
+                {/* Image Header */}
+                <div className="relative h-48 overflow-hidden">
+                  <img
+                    src={workshop.image || "/images/placeholder.jpg"}
+                    alt={workshop.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <Badge className="absolute top-3 left-3 bg-white/90 text-black hover:bg-white">
+                    {workshop.category}
+                  </Badge>
+                </div>
+
+                <CardHeader className="pt-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <CardTitle className="text-xl font-serif">{workshop.title}</CardTitle>
+                  </div>
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-wider">
+                    <span>{formatDate(workshop.date)}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3 w-3" /> {workshop.startTime} - {workshop.endTime}
+
+                    </span>
+                  </div>
+                </CardHeader>
+
+                <CardContent className="flex-grow">
+                  <CardDescription className="line-clamp-3 mb-4">
+                    {workshop.description}
+                  </CardDescription>
+                  
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/40">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-muted-foreground uppercase">Places</span>
+                      <span className={`text-sm font-medium ${seatsLeft <= 3 ? 'text-orange-500' : ''}`}>
+                        {isSoldOut ? 'Complet' : `${seatsLeft} restantes`}
+                      </span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-xs text-muted-foreground uppercase block">Prix</span>
+                      <span className="text-lg font-bold text-primary">{workshop.price} DH</span>
+                    </div>
+                  </div>
+                </CardContent>
+
+                <CardFooter className="pb-6">
+                  <Button 
+                    className="w-full rounded-full" 
+                    variant={isSoldOut ? "secondary" : "default"}
+                    disabled={isSoldOut}
+                    onClick={() => handleBookNow(workshop)}
+                  >
+                    {isSoldOut ? 'Épuisé' : 'Réserver ma place'}
+                  </Button>
+                </CardFooter>
+              </Card>
+            )
+          })}
         </div>
       </div>
+
+      <BookingModal
+        open={isBookingModalOpen}
+        onOpenChange={setIsBookingModalOpen}
+        onSuccess={fetchWorkshops}
+        workshop={
+          selectedWorkshop
+            ? {
+                id: selectedWorkshop.id,
+                title: selectedWorkshop.title,
+                date: selectedWorkshop.date,
+                startTime: selectedWorkshop.startTime,
+                endTime: selectedWorkshop.endTime,
+                price: selectedWorkshop.price,
+              }
+            : null
+        }
+      />
     </section>
   )
 }
