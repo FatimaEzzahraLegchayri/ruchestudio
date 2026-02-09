@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { signup } from '@/lib/service/authService';
+import { signup } from '@/lib/service/authService.js';
 import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {

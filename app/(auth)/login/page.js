@@ -31,7 +31,7 @@ export default function LoginPage() {
     try {
       const user = await signin(email, password)
       // Redirect to dashboard after successful login
-      router.push('/dashboard')
+      router.push('/workshops')
     } catch (err) {
       setError(err.message || 'Login failed. Please try again.')
       setLoading(false)

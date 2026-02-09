@@ -2,16 +2,16 @@
 
 import { useEffect, useState } from 'react'
 import { Card } from '@/components/ui/card'
-import { Dialog, DialogContent,DialogTrigger} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Table, TableBody, TableCell, TableHead,TableHeader, TableRow} from '@/components/ui/table'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import Image from 'next/image'
 
 import { SideBar } from '@/components/admin/side-bar'
 import { getBookings, updateBooking } from '@/lib/service/bookingService'
-
+import { PaginationHelper } from '@/components/admin/pagination-helper'
 
 interface Booking {
   id: string
@@ -31,11 +31,19 @@ export default function BookingPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
+  // Pagination State
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 12
+  const totalPages = Math.ceil(bookings.length / itemsPerPage)
+  const currentBookings = bookings.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
   const fetchBookings = async () => {
     try {
       setLoading(true)
       const data = await getBookings()
-      // Sort bookings by creation date (newest first)
       const sortedBookings = (data as Booking[]).sort((a, b) => {
         return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       })
@@ -72,17 +80,14 @@ export default function BookingPage() {
         return 'bg-white text-gray-800 border-gray-300'
     }
   }
-  
 
   const handleStatusChange = async (bookingId: string, newStatus: string) => {
     setBookings((prev) =>
       prev.map((booking) =>
-        booking.id === bookingId
-          ? { ...booking, status: newStatus }
-          : booking
+        booking.id === bookingId ? { ...booking, status: newStatus } : booking
       )
     )
-  
+
     try {
       await updateBooking(bookingId, newStatus)
     } catch (error) {
@@ -90,7 +95,6 @@ export default function BookingPage() {
       setError('Failed to update booking status')
     }
   }
-  
 
   return (
     <div className="flex min-h-screen">
@@ -125,8 +129,8 @@ export default function BookingPage() {
           )}
 
           {!loading && !error && bookings.length > 0 && (
-            <Card>
-              <div className="overflow-x-auto pl-5">
+            <Card className="p-6">
+              <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -140,13 +144,13 @@ export default function BookingPage() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {bookings.map((booking) => (
+                    {/* Use currentBookings for display */}
+                    {currentBookings.map((booking) => (
                       <TableRow key={booking.id}>
                         <TableCell className="font-medium">{booking.name}</TableCell>
                         <TableCell>{booking.email}</TableCell>
                         <TableCell>{booking.phone}</TableCell>
                         <TableCell>{booking.workshopTitle}</TableCell>
-                       
                         <TableCell>
                           <Dialog>
                             <DialogTrigger asChild>
@@ -160,7 +164,6 @@ export default function BookingPage() {
                                 />
                               </button>
                             </DialogTrigger>
-
                             <DialogContent className="max-w-3xl">
                               <div className="relative w-full h-[70vh]">
                                 <Image
@@ -173,28 +176,23 @@ export default function BookingPage() {
                             </DialogContent>
                           </Dialog>
                         </TableCell>
-
                         <TableCell>
                           <Select
                             value={booking.status || 'pending'}
-                            onValueChange={(value) =>
-                              handleStatusChange(booking.id, value)
-                            }
+                            onValueChange={(value) => handleStatusChange(booking.id, value)}
                           >
                             <SelectTrigger
                               className={`w-[140px] capitalize ${getStatusClasses(booking.status)}`}
                             >
                               <SelectValue placeholder="Select status" />
                             </SelectTrigger>
-
                             <SelectContent>
-                              <SelectItem value="pending" className='cursor-pointer'>Pending</SelectItem>
-                              <SelectItem value="confirmed" className='cursor-pointer'>Confirmed</SelectItem>
-                              <SelectItem value="canceled" className='cursor-pointer'>Canceled</SelectItem>
+                              <SelectItem value="pending" className="cursor-pointer">Pending</SelectItem>
+                              <SelectItem value="confirmed" className="cursor-pointer">Confirmed</SelectItem>
+                              <SelectItem value="canceled" className="cursor-pointer">Canceled</SelectItem>
                             </SelectContent>
                           </Select>
                         </TableCell>
-
                         <TableCell className="text-muted-foreground">
                           {formatDate(booking.createdAt)}
                         </TableCell>
@@ -202,6 +200,18 @@ export default function BookingPage() {
                     ))}
                   </TableBody>
                 </Table>
+              </div>
+
+              {/* Pagination Helper centered at the bottom */}
+              <div className="mt-8 border-t pt-6">
+                <PaginationHelper
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={(page) => {
+                    setCurrentPage(page)
+                    window.scrollTo({ top: 0, behavior: 'smooth' })
+                  }}
+                />
               </div>
             </Card>
           )}
