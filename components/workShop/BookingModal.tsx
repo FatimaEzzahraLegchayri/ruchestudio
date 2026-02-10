@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { newBooking } from '@/lib/service/bookingService'
-import { uploadPaymentImage } from '@/lib/service/uploadService' 
+import { uploadToCloudinary } from '@/lib/service/uploadService' 
 import { Loader2, Upload, FileCheck } from 'lucide-react'
 import { format } from 'date-fns'
 
@@ -91,7 +91,7 @@ export function BookingModal({ open, onOpenChange, onSuccess, workshop }: Bookin
 
     try {
       // 1. Upload to Cloudinary (returns the URL)
-      const imageUrl = await uploadPaymentImage(paymentImage)
+      const imageUrl = await uploadToCloudinary(paymentImage, 'workshop-payments')
 
       // 2. Save booking to Firestore using the URL
       await newBooking({

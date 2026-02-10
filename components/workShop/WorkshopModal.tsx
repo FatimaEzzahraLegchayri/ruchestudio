@@ -23,7 +23,7 @@ import { Loader2 } from 'lucide-react'
 
 import { addWorkshop, updateWorkshop } from '@/lib/service/workshopService'
 import { getCategories } from '@/lib/service/categorieService'
-
+import { uploadToCloudinary } from '@/lib/service/uploadService'
 
 interface Workshop {
   id: string
@@ -124,36 +124,22 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
-      // Validate file type
       if (!file.type.startsWith('image/')) {
         setError('Please select a valid image file')
         return
       }
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setError('Image size must be less than 5MB')
         return
       }
       setImageFile(file)
-      setFormData((prev) => ({ ...prev, image: '' })) // Clear URL if file is selected
       setError('')
       
-      // Create preview
       const reader = new FileReader()
       reader.onloadend = () => {
         setImagePreview(reader.result as string)
       }
       reader.readAsDataURL(file)
-    }
-  }
-
-  const handleImageUrlChange = (url: string) => {
-    setFormData((prev) => ({ ...prev, image: url }))
-    if (url) {
-      setImagePreview(url)
-      setImageFile(null) // Clear file if URL is entered
-    } else {
-      setImagePreview(null)
     }
   }
 
@@ -169,15 +155,14 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
     setLoading(true)
 
     try {
-      // Convert image file to base64 if a new file was selected
       let imageUrl = formData.image
+
       if (imageFile) {
-        const reader = new FileReader()
-        imageUrl = await new Promise<string>((resolve, reject) => {
-          reader.onloadend = () => resolve(reader.result as string)
-          reader.onerror = reject
-          reader.readAsDataURL(imageFile)
-        })
+        try {
+          imageUrl = await uploadToCloudinary(imageFile, "workshop_thumbnail")
+        } catch (uploadErr) {
+          throw new Error("Failed to upload image to Cloudinary. Please try again.")
+        }
       }
 
       const workshopData = {
@@ -388,13 +373,14 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="endTime">End Time</Label>
+              <Label htmlFor="endTime">End Time *</Label>
               <Input
                 id="endTime"
                 type="time"
                 value={formData.endTime}
                 onChange={(e) => handleChange('endTime', e.target.value)}
                 disabled={loading}
+                required
               />
             </div>
           </div>

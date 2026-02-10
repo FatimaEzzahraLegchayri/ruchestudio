@@ -3,26 +3,31 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Palette, Calendar, User, LogOut } from 'lucide-react'
+import { Palette, Calendar, User, LogOut, ListIcon } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { logout } from '@/lib/service/authService'
 import { ConfirmLogout } from './confirm-logout'
 
 const navItems = [
   {
-    title: 'Workshops',
-    href: '/workshops',
-    icon: Palette,
-  },
-  {
     title: 'Booking',
     href: '/booking',
     icon: Calendar,
   },
   {
+    title: 'Workshops',
+    href: '/workshops',
+    icon: Palette,
+  },
+  {
+    title: 'Pause Art',
+    href: '/pause-art',
+    icon: Palette,
+  },
+  {
     title: 'Categories',
     href: '/categories',
-    icon: Palette,
+    icon: ListIcon,
   },
   {
     title: 'Profile',
