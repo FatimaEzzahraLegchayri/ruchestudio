@@ -4,19 +4,27 @@ import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 
 const row1 = [
-  { id: 1, src: "/images/workshop-fabric.jpg", title: "Abstrait Floral" },
-  { id: 2, src: "/images/workshop-fabric.jpg", title: "Éclat d'Automne" },
-  { id: 3, src: "/images/workshop-fabric.jpg", title: "Sérénité Bleue" },
-  { id: 4, src: "/images/workshop-fabric.jpg", title: "Texture & Or" },
-  { id: 5, src: "/images/workshop-fabric.jpg", title: "Mouvement" },
+  { id: 1, src: "/images/gallery-1.jpg", title: "Abstrait Floral" },
+  { id: 2, src: "/images/gallery-2.jpg", title: "Éclat d'Automne" },
+  { id: 3, src: "/images/gallery-3.jpg", title: "Sérénité Bleue" },
+  { id: 4, src: "/images/gallery-4.jpg", title: "Texture & Or" },
+  { id: 5, src: "/images/gallery-5.jpg", title: "Mouvement" },
+  { id: 6, src: "/images/gallery-6.jpg", title: "Lueur Rose" },
+  { id: 7, src: "/images/gallery-7.jpg", title: "Ombres Portées" },
+  { id: 8, src: "/images/gallery-8.jpg", title: "Composition No. 4" },
+  { id: 9, src: "/images/gallery-9.jpg", title: "Esprit Libre" },
 ]
 
 const row2 = [
-  { id: 6, src: "/images/workshop-fabric.jpg", title: "Lueur Rose" },
-  { id: 7, src: "/images/workshop-fabric.jpg", title: "Ombres Portées" },
-  { id: 8, src: "/images/workshop-fabric.jpg", title: "Composition No. 4" },
-  { id: 9, src: "/images/workshop-fabric.jpg", title: "Esprit Libre" },
-  { id: 10, src: "/images/workshop-fabric.jpg", title: "Vibration" },
+  { id: 6, src: "/images/gallery-10.jpg", title: "Lueur Rose" },
+  { id: 7, src: "/images/gallery-11.jpg", title: "Ombres Portées" },
+  { id: 8, src: "/images/gallery-12.jpg", title: "Composition No. 4" },
+  { id: 9, src: "/images/gallery-13.jpg", title: "Esprit Libre" },
+  { id: 10, src: "/images/gallery-14.jpg", title: "Vibration" },
+  { id: 11, src: "/images/gallery-15.jpg", title: "Vibration" },
+  { id: 12, src: "/images/gallery-16.jpg", title: "Vibration" },
+  { id: 10, src: "/images/gallery-17.jpg", title: "Vibration" },
+  { id: 10, src: "/images/gallery-18.jpg", title: "Vibration" },
 ]
 
 export function GallerySection() {
@@ -129,14 +137,14 @@ function GalleryCard({
         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
       />
 
-      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
+      {/* <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-8">
         <div className="text-white">
           <p className="text-xs uppercase tracking-widest mb-1 opacity-80">
             Collection
           </p>
           <h4 className="text-xl font-serif italic">{item.title}</h4>
         </div>
-      </div>
+      </div> */}
 
       <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-[10px] font-bold text-[#AB507B] uppercase tracking-tighter opacity-0 group-hover:opacity-100 transition-opacity">
         La Ruche Studio

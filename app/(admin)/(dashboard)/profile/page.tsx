@@ -53,23 +53,24 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <SideBar />
-      <main className="flex-1 p-6 md:p-8">
+    <div className="">
+      {/* <SideBar /> */}
+      {/* <main className="flex-1 p-6 md:p-8"> */}
         <div className="max-w-4xl mx-auto">
-          <div className="mb-8 flex items-center justify-between">
+          <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-bold mb-2">Profile</h1>
-              <p className="text-muted-foreground">
+              <h1 className="text-2xl md:text-3xl font-bold mb-1">Profile</h1>
+              <p className="text-sm md:text-base text-muted-foreground">
                 View and manage your admin profile information
               </p>
             </div>
             {!loading && !error && profile && (
               <Button
                 onClick={() => setIsUpdateModalOpen(true)}
-                size="lg"
+                size="default"
+                className='w-full sm:w-auto flex items-center justify-center h-11'
               >
-                <Pencil className="mr-2 h-5 w-5" />
+                <Pencil className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Edit Profile
               </Button>
             )}
@@ -154,7 +155,7 @@ export default function ProfilePage() {
             </div>
           )}
         </div>
-      </main>
+      {/* </main> */}
 
       <UpdateProfile
         open={isUpdateModalOpen}

@@ -6,6 +6,8 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc } from 'firebase/firestore'
 import { auth, db } from '@/lib/config'
 import { Spinner } from '@/components/ui/spinner'
+import { SideBar } from '@/components/admin/side-bar'
+import { Breadcrumbs } from '@/components/admin/Breadcrumbs'
 
 export default function AdminLayout({
   children,
@@ -20,7 +22,7 @@ export default function AdminLayout({
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
         // User not authenticated, redirect to home
-        router.push('http://localhost:3000')
+        router.push('/')
         return
       }
 
@@ -31,7 +33,7 @@ export default function AdminLayout({
 
         if (!userDocSnap.exists()) {
           // User document doesn't exist, redirect
-          router.push('http://localhost:3000')
+          router.push('/')
           return
         }
 
@@ -40,7 +42,7 @@ export default function AdminLayout({
 
         if (userRole !== 'admin') {
           // User is not an admin, redirect
-          router.push('http://localhost:3000')
+          router.push('/')
           return
         }
 
@@ -48,7 +50,7 @@ export default function AdminLayout({
         setAuthorized(true)
       } catch (error) {
         console.error('Error checking user role:', error)
-        router.push('http://localhost:3000')
+        router.push('/')
       } finally {
         setLoading(false)
       }
@@ -72,5 +74,18 @@ export default function AdminLayout({
     return null // Will redirect, so show nothing
   }
 
-  return <>{children}</>
+  return (
+    <div className="flex min-h-screen">
+    <SideBar />
+
+    <main className="flex-1 md:ml-64 bg-slate-50 min-h-screen transition-all duration-300">
+      <div className="p-4 md:p-8 pt-20 md:pt-8 max-w-7xl mx-auto">
+        {/* Breadcrumbs inserted here */}
+        <Breadcrumbs />
+        
+        {children}
+      </div>
+    </main>
+  </div>
+  )
 }

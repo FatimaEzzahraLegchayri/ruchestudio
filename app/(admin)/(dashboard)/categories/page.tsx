@@ -106,34 +106,45 @@ export default function CategoriesPage() {
   }, [])
 
   return (
-    <div className="flex min-h-screen">
-      <SideBar />
+    <div className="">
+      {/* <SideBar /> */}
 
-      <main className="flex-1 p-6 md:p-8">
+      {/* <main className="flex-1 p-6 md:p-8"> */}
         <div className="max-w-6xl mx-auto space-y-6">
-          <div>
-            <h1 className="text-3xl font-bold">Categories</h1>
-            <p className="text-muted-foreground">Manage workshop categories</p>
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl md:text-3xl font-bold">Categories</h1>
+            <p className="text-sm md:text-base text-muted-foreground">Manage workshop categories</p>
           </div>
 
-          <Card className="p-6">
-            <div className="flex gap-3">
+          <Card className="p-4 md:p-6">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Input
                 placeholder="New category name"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
+                className="flex-1"
               />
-              <Button onClick={handleAddCategory} disabled={adding}>
-                {adding ? <Loader2 className="h-4 w-4 animate-spin" /> : <><Plus className="h-4 w-4 mr-2" /> Add</>}
+              <Button 
+                onClick={handleAddCategory} 
+                disabled={adding}
+                className="w-full sm:w-auto"
+              >
+                {adding ? (
+                  <Loader2 className="h-4 w-4 animate-spin" />
+                ) : (
+                  <>
+                    <Plus className="h-4 w-4 mr-2" /> Add Category
+                  </>
+                )}
               </Button>
             </div>
           </Card>
 
           {error && (
-            <div className="bg-destructive/10 text-destructive p-4 rounded-lg">{error}</div>
+            <div className="bg-destructive/10 text-destructive p-4 rounded-lg text-sm">{error}</div>
           )}
 
-          <Card className="p-6">
+          <Card className="p-4 md:p-6">
             {loading ? (
               <div className="flex justify-center py-12">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -141,7 +152,7 @@ export default function CategoriesPage() {
             ) : categories.length === 0 ? (
               <p className="text-center py-12 text-muted-foreground">No categories found</p>
             ) : (
-              <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                 {currentCategories.map((category) => (
                   <Card key={category.id} className="p-4 flex items-center justify-between hover:shadow-sm transition">
                     <p className="font-semibold">{category.name}</p>
@@ -180,7 +191,7 @@ export default function CategoriesPage() {
             </div>
           </Card>
         </div>
-      </main>
+      {/* </main> */}
 
       {/* Reusable Delete Confirmation */}
       <DeleteConfirmation
@@ -192,7 +203,7 @@ export default function CategoriesPage() {
 
       {/* Edit Modal */}
       <Dialog open={!!editingCategory} onOpenChange={() => setEditingCategory(null)}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="w-[95vw] sm:w-full max-w-md">
           <DialogHeader>
             <DialogTitle>Edit Category</DialogTitle>
           </DialogHeader>
@@ -201,7 +212,7 @@ export default function CategoriesPage() {
             onChange={(e) => setEditedName(e.target.value)} 
             placeholder="Category name" 
           />
-          <div className="flex justify-end gap-2 mt-4">
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-2">
             <Button variant="outline" onClick={() => setEditingCategory(null)}>Cancel</Button>
             <Button onClick={handleUpdateCategory} disabled={updating}>
               {updating ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Update'}

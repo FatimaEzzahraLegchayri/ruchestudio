@@ -10,23 +10,23 @@ const _playfair = Playfair_Display({ subsets: ["latin"], variable: '--font-playf
 export const metadata: Metadata = {
   title: 'La Ruche Studio | Ateliers Créatifs & Bien-être',
   description: 'Rejoignez la Ruche - Une communauté créative où chaque atelier est une expérience unique. Peinture, poésie, bougies et plus encore.',
-  generator: 'v0.app',
+  // generator: 'v0.app',
   icons: {
     icon: [
       {
-        url: '/icon-light-32x32.png',
+        url: '/images/la-ruche-studio-logo.jpeg',
         media: '(prefers-color-scheme: light)',
       },
       {
-        url: '/icon-dark-32x32.png',
+        url: '/images/la-ruche-studio-logo.jpeg',
         media: '(prefers-color-scheme: dark)',
       },
       {
-        url: '/icon.svg',
+        url: '/images/la-ruche-studio-logo.jpeg',
         type: 'image/svg+xml',
       },
     ],
-    apple: '/apple-icon.png',
+    apple: '/images/la-ruche-studio-logo.jpeg',
   },
 }
 

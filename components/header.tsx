@@ -31,19 +31,19 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-10">
             <Link
-              href="#ateliers"
+              href="/#ateliers"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors"
             >
               Ateliers
             </Link>
             <Link
-              href="#pause-art"
+              href="/#pause-art"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors"
             >
               La Pause d'Art
             </Link>
             <Link
-              href="#entreprises"
+              href="/#entreprises"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors"
             >
               Entreprises
@@ -57,7 +57,7 @@ export function Header() {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-md">
               <Link href="#ateliers">Réserver une place</Link>
             </Button>
           </div>
@@ -76,21 +76,21 @@ export function Header() {
         <div className="md:hidden bg-background border-t border-border">
           <nav className="flex flex-col px-6 py-4 gap-4">
             <Link
-              href="#ateliers"
+              href="/#ateliers"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Ateliers
             </Link>
             <Link
-              href="#pause-art"
+              href="/#pause-art"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               La Pause d'Art
             </Link>
             <Link
-              href="#entreprises"
+              href="/#entreprises"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
@@ -103,8 +103,8 @@ export function Header() {
             >
               Blog
             </Link>
-            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2">
-              <Link href="#ateliers" onClick={() => setIsMobileMenuOpen(false)}>
+            <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 mt-2 rounded-md">
+              <Link href="/#ateliers" onClick={() => setIsMobileMenuOpen(false)}>
                 Réserver une place
               </Link>
             </Button>

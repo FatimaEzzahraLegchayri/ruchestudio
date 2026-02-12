@@ -147,18 +147,18 @@ export function WorkshopTable() {
                 <TableCell>
                   <Dialog>
                     <DialogTrigger asChild>
-                      <button className="cursor-pointer">
+                      <button className="cursor-pointer overflow-hidden rounded border transition-opacity hover:opacity-80">
                         <Image
                           src={booking.paymentProofUrl}
                           alt="Payment Proof"
                           width={40}
                           height={40}
-                          className="rounded border hover:opacity-80"
+                          className="aspect-square object-cover"
                         />
                       </button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-3xl">
-                      <div className="relative w-full h-[70vh]">
+                    <DialogContent className="w-[95vw] sm:max-w-3xl p-1 rounded-lg">
+                      <div className="relative mt-2 w-full h-[60vh] sm:h-[70vh] bg-muted/30 rounded-md overflow-hidden">
                         <Image
                           src={booking.paymentProofUrl}
                           alt="Payment Proof Large"

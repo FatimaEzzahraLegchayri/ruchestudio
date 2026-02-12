@@ -113,23 +113,24 @@ export default function WorkshopsPage() {
   }
 
   return (
-    <div className="flex min-h-screen">
-      <SideBar />
-      <main className="flex-1 p-6 md:p-8">
+    <div className="">
+      {/* <SideBar /> */}
+      {/* <main className="flex-1 p-6 md:p-8"> */}
         <div className="max-w-7xl mx-auto">
-          <div className="mb-8 flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Workshops</h1>
-              <p className="text-muted-foreground">Manage and view all workshops</p>
-            </div>
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold mb-1">Workshops</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Manage and view all workshops</p>
+        </div>
             <Button
               onClick={() => {
                 setEditingWorkshop(null)
                 setIsModalOpen(true)
               }}
-              size="lg"
+              size="default"
+              className='w-full sm:w-auto md:h-11 md:px-8'
             >
-              <Plus className="mr-2 h-5 w-5" />
+              <Plus className="mr-2 h-4 w-4 md:h-5 md:w-5" />
               Add Workshop
             </Button>
           </div>
@@ -151,13 +152,13 @@ export default function WorkshopsPage() {
           )}
 
           {!loading && !error && workshops.length > 0 && (
-            <div className="space-y-8"> {/* Container to stack grid and pagination */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {currentWorkshops.map((workshop) => (
-                  <Card key={workshop.id} className="hover:shadow-lg transition-shadow flex flex-col">
-                    {workshop.image && (
-                      <div className="w-full h-48 overflow-hidden rounded-t-lg">
-                        <img
+            <div className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+              {currentWorkshops.map((workshop) => (
+                <Card key={workshop.id} className="hover:shadow-lg transition-all duration-300 flex flex-col group">
+                  {workshop.image && (
+                    <div className="w-full h-40 md:h-48 overflow-hidden rounded-t-lg relative">
+                      <img
                           src={workshop.image}
                           alt={workshop.title}
                           className="w-full h-full object-cover"
@@ -249,7 +250,7 @@ export default function WorkshopsPage() {
             </div>
           )}
         </div>
-      </main>
+      {/* </main> */}
 
       <WorkshopModal
         open={isModalOpen}

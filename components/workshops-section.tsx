@@ -156,7 +156,7 @@ export function WorkshopsSection() {
 
                   <CardFooter className="pb-6">
                     <Button 
-                      className="w-full rounded-full" 
+                      className="w-full rounded-md" 
                       variant={isSoldOut ? "secondary" : "default"}
                       disabled={isSoldOut}
                       onClick={() => handleBookNow(workshop)}

@@ -9,7 +9,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Plus, X, Loader2, ListChecks, Image as ImageIcon } from 'lucide-react'
 import { addPauseArt, updatePauseArt } from '@/lib/service/workshopService'
-import { uploadToCloudinary } from '@/lib/service/uploadService'
+// import { uploadToCloudinary } from '@/lib/service/uploadService'
 
 interface AddPauseArtModalProps {
   isOpen: boolean
@@ -24,8 +24,8 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
   const [todoInput, setTodoInput] = useState('')
   
   // Image States
-  const [imageFile, setImageFile] = useState<File | null>(null)
-  const [imagePreview, setImagePreview] = useState<string | null>(null)
+  // const [imageFile, setImageFile] = useState<File | null>(null)
+  // const [imagePreview, setImagePreview] = useState<string | null>(null)
 
   // Form State
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
     endTime: '',
     price: '',
     capacity: '',
-    image: '',
+    // image: '',
     status: 'draft',
     todos: [] as string[]
   })
@@ -52,40 +52,40 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
         endTime: sessionToEdit.endTime || '',
         price: sessionToEdit.price?.toString() || '',
         capacity: sessionToEdit.capacity?.toString() || '',
-        image: sessionToEdit.image || '',
+        // image: sessionToEdit.image || '',
         status: sessionToEdit.status || 'draft',
         todos: sessionToEdit.todos || []
       })
-      setImagePreview(sessionToEdit.image || null)
+      // setImagePreview(sessionToEdit.image || null)
     } else if (!sessionToEdit && isOpen) {
       // Reset for "Add" mode
       setFormData({
         title: '', description: '', date: '', startTime: '',
-        endTime: '', price: '', capacity: '', image: '',
+        endTime: '', price: '', capacity: '', // image: '',
         status: 'draft', todos: []
       })
-      setImagePreview(null)
-      setImageFile(null)
+      // setImagePreview(null)
+      // setImageFile(null)
     }
   }, [sessionToEdit, isOpen])
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      setImageFile(file)
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
-    }
-  }
+  // const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = e.target.files?.[0]
+  //   if (file) {
+  //     setImageFile(file)
+  //     const reader = new FileReader()
+  //     reader.onloadend = () => {
+  //       setImagePreview(reader.result as string)
+  //     }
+  //     reader.readAsDataURL(file)
+  //   }
+  // }
 
-  const handleRemoveImage = () => {
-    setImageFile(null)
-    setImagePreview(null)
-    setFormData(prev => ({ ...prev, image: '' }))
-  }
+  // const handleRemoveImage = () => {
+  //   setImageFile(null)
+  //   setImagePreview(null)
+  //   setFormData(prev => ({ ...prev, image: '' }))
+  // }
 
   const addTodo = () => {
     if (todoInput.trim()) {
@@ -108,26 +108,24 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
     e.preventDefault()
     setLoading(true)
     try {
-      let finalImageUrl = formData.image
+      // let finalImageUrl = formData.image
 
       // 1. Upload to Cloudinary if a new file was selected
-      if (imageFile) {
-        finalImageUrl = await uploadToCloudinary(imageFile, "pause_art")
-      }
+      // if (imageFile) {
+      //   finalImageUrl = await uploadToCloudinary(imageFile, "pause_art")
+      // }
 
       // 2. Prepare payload
       const payload = {
         ...formData,
-        image: finalImageUrl,
+        // image: finalImageUrl,
         price: parseFloat(formData.price),
         capacity: parseInt(formData.capacity)
       }
 
       if (sessionToEdit) {
-        // CALL UPDATE SERVICE
         await updatePauseArt(sessionToEdit.id, payload)
       } else {
-        // CALL ADD SERVICE
         await addPauseArt(payload)
       }
 
@@ -143,7 +141,7 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto font-sans">
+      <DialogContent className="max-w-md w-[95vw] sm:w-full max-h-[90vh] overflow-y-auto font-sans">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center gap-2">
             <ListChecks className="w-6 h-6 text-primary" />
@@ -172,7 +170,7 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
             </div>
 
             {/* Image Upload Section */}
-            <div className="md:col-span-2 space-y-2">
+            {/* <div className="md:col-span-2 space-y-2">
               <Label>Image de couverture *</Label>
               <div className="flex flex-col gap-4">
                 <Input 
@@ -197,7 +195,7 @@ export function AddPauseArtModal({ isOpen, onClose, onSuccess, sessionToEdit }: 
                   </div>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="space-y-2">
               <Label>Date *</Label>

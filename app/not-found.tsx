@@ -12,21 +12,18 @@ export default function NotFound() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      // 1. If no user is logged in, redirect to landing page
       if (!user) {
         router.replace('/')
         return
       }
 
       try {
-        // 2. Fetch the user document from the 'users' collection
         const userDocRef = doc(db, 'users', user.uid)
         const userSnap = await getDoc(userDocRef)
 
         if (userSnap.exists()) {
           const userData = userSnap.data()
           
-          // 3. Check for the 'admin' role
           if (userData.role === 'admin') {
             router.replace('/workshops')
           } else {
@@ -34,7 +31,6 @@ export default function NotFound() {
             router.replace('/')
           }
         } else {
-          // Document doesn't exist in Firestore
           router.replace('/')
         }
       } catch (error) {

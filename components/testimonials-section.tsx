@@ -4,20 +4,20 @@ const testimonials = [
   {
     quote:
       "Une expérience magique ! J'ai découvert une passion pour la peinture que je ne soupçonnais pas. L'ambiance est tellement bienveillante.",
-    author: "Marie L.",
+    author: "Maria",
     workshop: "Atelier Peinture sur Tissu",
   },
   {
     quote:
       "La Pause d'Art a été une vraie bouffée d'air frais. Entre le yoga, la créativité et les échanges, je suis repartie ressourcée et inspirée.",
-    author: "Sophie D.",
+    author: "Amina.",
     workshop: "La Pause d'Art",
   },
   {
     quote:
       "J'ai offert cet atelier à ma mère et nous l'avons fait ensemble. Un moment de complicité inoubliable et de belles créations à garder.",
-    author: "Camille R.",
-    workshop: "Création de Bougies",
+    author: "Leila",
+    workshop: "La Pause d'Art",
   },
 ]
 

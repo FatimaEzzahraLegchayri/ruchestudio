@@ -29,7 +29,7 @@ export function StickyCta() {
       <Button
         asChild
         size="lg"
-        className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-6"
+        className="bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg px-6 rounded-md"
       >
         <Link href="#ateliers">Réserver une place</Link>
       </Button>

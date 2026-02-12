@@ -11,7 +11,7 @@ import { AddPauseArtModal } from '@/components/workShop/AddPauseArtModal'
 import { DeleteConfirmation } from '@/components/workShop/DeleteConfirmation'
 import { PaginationHelper } from '@/components/admin/pagination-helper'
 import { format } from 'date-fns'
-import Image from 'next/image'
+// import Image from 'next/image'
 
 export default function AdminPauseArtPage() {
   const [sessions, setSessions] = useState<any[]>([])
@@ -68,7 +68,6 @@ export default function AdminPauseArtPage() {
     }
   }
 
-  // --- Actions ---
   const handleEditClick = (session: any) => {
     setEditingSession(session)
     setIsModalOpen(true)
@@ -95,16 +94,15 @@ export default function AdminPauseArtPage() {
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-50/50">
-      <SideBar />
-      <main className="flex-1 p-6 md:p-8">
+    <div className="">
+      {/* <main className="flex-1 p-6 md:p-8"> */}
         <div className="max-w-7xl mx-auto">
           
           {/* Header Section */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-foreground">La Pause d'Art</h1>
-              <p className="text-muted-foreground mt-1">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">La Pause d'Art</h1>
+              <p className="text-sm md:text-base text-muted-foreground mt-1">
                 Gérer les sessions de journées bien-être et créativité.
               </p>
             </div>
@@ -113,7 +111,7 @@ export default function AdminPauseArtPage() {
                 setEditingSession(null)
                 setIsModalOpen(true)
               }}
-              className="bg-primary hover:bg-primary/90 text-white flex items-center gap-2"
+              className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white flex items-center gap-2 justify-center h-11"
             >
               <Plus className="w-5 h-5" />
               Nouvelle session
@@ -138,19 +136,19 @@ export default function AdminPauseArtPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {currentSessions.map((session) => (
                   <Card key={session.id} className="overflow-hidden flex flex-col hover:shadow-lg transition-shadow">
-                    <div className="relative h-48 w-full">
-                      <Image 
-                        src={session.image || '/placeholder-art.jpg'} 
+                    {/* <div className="relative h-48 w-full"> */}
+                      {/* <Image 
+                        // src={session.image || '/placeholder-art.jpg'} 
                         alt={session.title}
                         fill
                         className="object-cover"
-                      />
-                      <div className="absolute top-3 right-3">
+                      /> */}
+                      <div className="pl-5">
                         <Badge variant={getStatusBadgeVariant(session.status)}>
                           {session.status}
                         </Badge>
                       </div>
-                    </div>
+                    {/* </div> */}
                     
                     <CardHeader className="pb-2">
                       <CardTitle className="text-xl line-clamp-1">{session.title}</CardTitle>
@@ -214,7 +212,7 @@ export default function AdminPauseArtPage() {
             </div>
           )}
         </div>
-      </main>
+      {/* </main> */}
 
       {/* Shared Modal for Add & Update */}
       <AddPauseArtModal 

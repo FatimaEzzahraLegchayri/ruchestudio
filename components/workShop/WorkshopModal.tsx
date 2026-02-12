@@ -96,7 +96,6 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
   }, [open])
   
 
-  // Populate form when editing
   useEffect(() => {
     if (workshop && open) {
       setFormData({
@@ -114,7 +113,6 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
       setImagePreview(workshop.image || null)
       setImageFile(null)
     } else if (!workshop && open) {
-      // Reset form when creating new workshop
       setFormData(initialFormData)
       setImagePreview(null)
       setImageFile(null)
@@ -184,12 +182,10 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
         await addWorkshop(workshopData)
       }
 
-      // Reset form
       setFormData(initialFormData)
       setImagePreview(null)
       setImageFile(null)
 
-      // Close modal and refresh list
       onOpenChange(false)
       if (onSuccess) {
         onSuccess()
@@ -213,7 +209,7 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="w-[95vw] sm:w-full max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{isEditMode ? 'Edit Workshop' : 'Add New Workshop'}</DialogTitle>
           <DialogDescription>
@@ -265,7 +261,7 @@ export function WorkshopModal({ open, onOpenChange, onSuccess, workshop }: Works
                   {categories.map((category) => (
                     <SelectItem
                       key={category.id}
-                      value={category.slug} // or category.name (your choice)
+                      value={category.slug}
                       className="cursor-pointer"
                     >
                       {category.name}

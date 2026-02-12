@@ -9,7 +9,6 @@ import { CorporateTable } from '@/components/admin/bookings/CorporateTable' // I
 export default function BookingPage() {
   return (
     <div className="flex min-h-screen">
-      <SideBar />
       <main className="flex-1 p-6 md:p-8">
         <div className="max-w-7xl mx-auto">
           <div className="mb-8">

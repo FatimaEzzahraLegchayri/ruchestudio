@@ -13,7 +13,7 @@ export function FounderSection() {
           {/* Portrait - 3:4 aspect ratio on left */}
           <div className="relative w-full max-w-[280px] md:max-w-[320px] aspect-[3/4] rounded-lg overflow-hidden ring-1 ring-border/30 shrink-0">
             <Image
-              src="/images/founder.jpg"
+              src="/images/fondatrice.jpg"
               alt="Fondatrice de La Ruche Studio"
               fill
               className="object-cover"
@@ -33,7 +33,7 @@ export function FounderSection() {
 
             {/* Soft signature-like element */}
             <div className="mt-10 text-muted-foreground text-sm italic">
-              — Fondatrice
+              Hafsa — Fondatrice
             </div>
           </div>
         </div>
