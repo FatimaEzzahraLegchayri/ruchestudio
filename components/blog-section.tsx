@@ -1,35 +1,24 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
+import { client } from "@/lib/sanity/sanity.client"
+import { urlFor } from "@/lib/sanity/sanity.image"
 
-const blogPosts = [
-  {
-    image: "/images/workshop-fabric.jpg",
-    title: "Comment débuter la peinture sur tissu",
-    excerpt:
-      "Découvrez les techniques de base et le matériel nécessaire pour vous lancer dans la peinture textile.",
-    category: "Techniques",
-    readTime: "5 min",
-  },
-  {
-    image: "/images/workshop-candle.jpg",
-    title: "Choisir ses huiles essentielles pour bougies",
-    excerpt:
-      "Guide complet pour sélectionner et associer les parfums naturels dans vos créations.",
-    category: "Conseils",
-    readTime: "4 min",
-  },
-  {
-    image: "/images/workshop-glass.jpg",
-    title: "L'art de la peinture sur verre",
-    excerpt:
-      "Histoire et techniques modernes de cet art ancestral accessible à tous.",
-    category: "Inspiration",
-    readTime: "6 min",
-  },
-]
+// 1. Fetch data from Sanity
+async function getPosts() {
+  const query = `*[_type == "post"] | order(publishedAt desc) [0...3] {
+    title,
+    slug,
+    body,
+    mainImage,
+    publishedAt
+  }`
+  return await client.fetch(query)
+}
 
-export function BlogSection() {
+export async function BlogSection() {
+  const posts = await getPosts()
+
   return (
     <section id="blog" className="py-24 lg:py-32 bg-background">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -43,7 +32,7 @@ export function BlogSection() {
             </h2>
           </div>
           <Link
-            href="#"
+            href="/blogs"
             className="text-sm text-foreground flex items-center gap-2 hover:text-accent transition-colors mt-4 md:mt-0"
           >
             Voir tous les articles
@@ -52,33 +41,48 @@ export function BlogSection() {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {blogPosts.map((post) => (
-            <Link
-              key={post.title}
-              href="#"
-              className="group"
-            >
-              <div className="relative aspect-[16/10] rounded-lg overflow-hidden mb-4">
-                <Image
-                  src={post.image || "/placeholder.svg"}
-                  alt={post.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex items-center gap-3 text-sm text-muted-foreground mb-2">
-                <span>{post.category}</span>
-                <span className="w-1 h-1 rounded-full bg-border" />
-                <span>{post.readTime} de lecture</span>
-              </div>
-              <h3 className="font-serif text-lg text-foreground group-hover:text-accent transition-colors mb-2">
-                {post.title}
-              </h3>
-              <p className="text-sm text-muted-foreground line-clamp-2">
-                {post.excerpt}
-              </p>
-            </Link>
-          ))}
+          {posts.map((post: any) => {
+            const excerpt = post.body?.[0]?.children
+            ?.map((child: any) => child.text)
+            .join("") || "";
+            
+            return (
+              <Link
+                key={post.slug.current}
+                href={`/blogs/${post.slug.current}`}
+                className="group"
+              >
+                <div className="relative aspect-[16/10] rounded-xl overflow-hidden mb-4 bg-gray-100">
+                  {post.mainImage ? (
+                    <Image
+                      src={urlFor(post.mainImage).width(800).url()}
+                      alt={post.title}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-muted-foreground text-xs">
+                      No Image
+                    </div>
+                  )}
+                </div>
+                
+                {/* Optional: Keep the date if you've removed categories */}
+                <div className="flex items-center gap-3 text-sm text-muted-foreground mb-2">
+                   <span>{new Date(post.publishedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                </div>
+
+                <h3 className="font-serif text-lg text-foreground group-hover:text-accent transition-colors mb-2">
+                  {post.title}
+                </h3>
+                
+                {/* Displaying 3 lines of content as requested */}
+                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed">
+                  {excerpt}
+                </p>
+              </Link>
+            )
+          })}
         </div>
       </div>
     </section>

@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { Palette, Calendar, User, LogOut, ListIcon } from 'lucide-react'
+import { Palette, Calendar, User, LogOut, ListIcon, Book, ExternalLink } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { logout } from '@/lib/service/authService'
 import { ConfirmLogout } from './confirm-logout'
@@ -29,6 +29,13 @@ const navItems = [
     href: '/categories',
     icon: ListIcon,
   },
+  {
+    title: 'Blog',
+    href: '/blog',
+    icon: Book,
+    newTab: true,
+  },
+
   {
     title: 'Profile',
     href: '/profile',
@@ -62,6 +69,8 @@ export function SideBar() {
               <Link
                 key={item.href}
                 href={item.href}
+                target={item.newTab ? '_blank' : undefined}
+                rel={item.newTab ? 'noopener noreferrer' : undefined}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors',
                   isActive
@@ -71,6 +80,7 @@ export function SideBar() {
               >
                 <Icon className="h-5 w-5" />
                 <span>{item.title}</span>
+{item.newTab && <ExternalLink className="ml-auto h-3 w-3 opacity-50" />}
               </Link>
             )
           })}

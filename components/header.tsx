@@ -49,7 +49,7 @@ export function Header() {
               Entreprises
             </Link>
             <Link
-              href="#blog"
+              href="/blogs"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors"
             >
               Blog
@@ -97,7 +97,7 @@ export function Header() {
               Entreprises
             </Link>
             <Link
-              href="#blog"
+              href="/blogs"
               className="text-sm tracking-wide text-foreground/80 hover:text-foreground transition-colors py-2"
               onClick={() => setIsMobileMenuOpen(false)}
             >
