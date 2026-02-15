@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { Instagram, Mail } from "lucide-react"
+import Image from "next/image"
 
 export function Footer() {
   return (
@@ -7,9 +8,10 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           <div className="md:col-span-2">
-            <Link href="/" className="font-serif text-2xl tracking-wide mb-4 block">
+            {/* <Link href="/" className="font-serif text-2xl tracking-wide mb-4 block">
               La Ruche Studio
-            </Link>
+            </Link> */}
+            <Image src="/images/logo-noBg.png" alt="La Ruche Studio" width={100} height={100} />
             <p className="text-primary-foreground/80 leading-relaxed max-w-md mb-6">
               Rejoignez la Ruche — une communauté créative où chaque atelier est une
               expérience unique, un moment de pause et un souvenir à emporter.

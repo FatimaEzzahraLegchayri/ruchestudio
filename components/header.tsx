@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Image from "next/image"
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -26,7 +27,8 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="font-serif text-2xl tracking-wide text-foreground">
-            La Ruche Studio
+            {/* La Ruche Studio */}
+            <Image src="/images/logo-noBg.png" alt="La Ruche Studio" width={100} height={100} />
           </Link>
 
           <nav className="hidden md:flex items-center gap-10">

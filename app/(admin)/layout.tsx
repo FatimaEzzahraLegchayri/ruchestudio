@@ -21,18 +21,15 @@ export default function AdminLayout({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        // User not authenticated, redirect to home
         router.push('/')
         return
       }
 
       try {
-        // Check user role in Firestore
         const userDocRef = doc(db, 'users', user.uid)
         const userDocSnap = await getDoc(userDocRef)
 
         if (!userDocSnap.exists()) {
-          // User document doesn't exist, redirect
           router.push('/')
           return
         }
@@ -41,7 +38,6 @@ export default function AdminLayout({
         const userRole = userData.role
 
         if (userRole !== 'admin') {
-          // User is not an admin, redirect
           router.push('/')
           return
         }
@@ -71,7 +67,7 @@ export default function AdminLayout({
   }
 
   if (!authorized) {
-    return null // Will redirect, so show nothing
+    return null 
   }
 
   return (
@@ -80,7 +76,6 @@ export default function AdminLayout({
 
     <main className="flex-1 md:ml-64 bg-slate-50 min-h-screen transition-all duration-300">
       <div className="p-4 md:p-8 pt-20 md:pt-8 max-w-7xl mx-auto">
-        {/* Breadcrumbs inserted here */}
         <Breadcrumbs />
         
         {children}
