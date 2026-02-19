@@ -59,12 +59,27 @@ export function WorkshopTable() {
     fetchBookings()
   }, [])
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateValue: any) => {
     try {
-      const date = new Date(dateString)
+      if (!dateValue) return 'N/A'
+  
+      let date: Date
+  
+      if (dateValue && typeof dateValue === 'object' && 'seconds' in dateValue) {
+        date = new Date(dateValue.seconds * 1000)
+      } 
+      else {
+        date = new Date(dateValue)
+      }
+  
+      if (isNaN(date.getTime())) {
+        return 'Date invalide'
+      }
+  
       return format(date, 'MMM dd, yyyy HH:mm')
-    } catch {
-      return dateString
+    } catch (error) {
+      console.error("FormatDate Error:", error)
+      return 'Erreur date'
     }
   }
 
